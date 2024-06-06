@@ -7,6 +7,8 @@
 #
 # the requirements for email:
 #   an email with characters, numbers and a dot(.)
+#
+#The info will be saved in  a file named "save.txt"
 
 
 import re           #this module is used to check the password and email validity
