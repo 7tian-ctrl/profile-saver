@@ -10,12 +10,15 @@
 
 
 import re           #this module is used to check the password and email validity
+import password_generator as pg
+import inquirer
+
 
 def update():                       #this function will open a new file "save.txt" and write the email and password
     with open("save.txt", "w") as a:
         a.write(f"Email: {email}\n")
         a.write(f"Password: {password}\n________________\n\n")
-    print("The info has been saved")
+    print("\nThe info has been saved!\nYou can view it in save.txt")
 
 def input_email():          #to input the email
     global email
@@ -83,12 +86,32 @@ def password_checker():         #password checker function, the requirements are
     
         if flag == -1:          #if the password is not valid, it will loop over
             print("\n   Not a Valid Password, try again...")
+            
+def auto_password():
+    question = [
+        inquirer.List(
+            "auto-generate",
+            message="Do you want to auto generate the password?",
+            choices=["Yes", "No"],
+        )
+    ]
+
+    global answer
+    answer = inquirer.prompt(question)
+
+    if answer["auto-generate"] == "Yes":
+        global password
+        password = pg.generator()
+    else:
+        password_checker()
 
 def info():             #the main function
     
     check_email()
-    
-    password_checker() 
+
+    print("\n")
+
+    auto_password()
 
     update()
 
