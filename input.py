@@ -18,7 +18,7 @@ import inquirer
 
 
 def update():                       #this function will open a new file "save.txt" and write the email and password
-    with open("save.txt", "w") as a:
+    with open("save.txt", "a") as a:
         a.write(f"Email: {email}\n")
         a.write(f"Password: {encrypted_password}\n________________\n\n")
     print("\nThe info has been saved!\nYou can view it in save.txt")
