@@ -6,6 +6,7 @@
 #   5. at least one special character($ or _ or @)
 
 import string
+from cryptography.fernet import Fernet
 import random
 import inquirer
 
@@ -95,6 +96,16 @@ def checker():
 
     return auto_password
 
+def encryption():
+
+    key = Fernet.generate_key()
+    fernet = Fernet(key)
+
+    global encrypted_password
+    encrypted_password = fernet.encrypt(auto_password.encode())
+
+    return encrypted_password
+
 def generator():
     
     password_length()
@@ -103,7 +114,9 @@ def generator():
 
     checker()
 
-    return auto_password
+    encryption()
+
+    return encrypted_password 
 
 if __name__ == "__main__":
     generator()

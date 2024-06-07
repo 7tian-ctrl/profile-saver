@@ -13,14 +13,26 @@
 
 import re           #this module is used to check the password and email validity
 import password_generator as pg
+from cryptography.fernet import Fernet
 import inquirer
 
 
 def update():                       #this function will open a new file "save.txt" and write the email and password
     with open("save.txt", "w") as a:
         a.write(f"Email: {email}\n")
-        a.write(f"Password: {password}\n________________\n\n")
+        a.write(f"Password: {encrypted_password}\n________________\n\n")
     print("\nThe info has been saved!\nYou can view it in save.txt")
+
+def encryption():
+
+    key = Fernet.generate_key()
+    fernet = Fernet(key)
+
+    global encrypted_password
+    encrypted_password = fernet.encrypt(password.encode())
+
+    return encrypted_password
+
 
 def input_email():          #to input the email
     global email
@@ -84,11 +96,13 @@ def password_checker():         #password checker function, the requirements are
             else:               #if all the requirements are fullfilled, the password will pass and they will be saved
                 flag = 0
                 tries = True
+                encryption()
                 break
     
         if flag == -1:          #if the password is not valid, it will loop over
             print("\n   Not a Valid Password, try again...")
             
+
 def auto_password():
     question = [
         inquirer.List(
